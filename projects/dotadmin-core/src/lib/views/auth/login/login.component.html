@@ -1,0 +1,63 @@
+<strong class="text-xl"> ورود به حساب کاربری </strong>
+<p class="text-sm">
+  برای ورود به پنل مدیریت ، لطفا اطلاعات حساب کاربری خود را وارد کنید
+</p>
+
+<br />
+
+<form [formGroup]="FormGroup" (ngSubmit)="Submit()" class="flex flex-col gap-2">
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> نام کاربری </span>
+    </label>
+    <input
+      type="text"
+      name="dotadmin-username"
+      class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+      formControlName="username"
+      [disabled]="FormGroup.disabled"
+    />
+  </div>
+
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> کلمه عبور </span>
+    </label>
+    <div class="input-group">
+      <input
+        name="dotadmin-password"
+        class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+        formControlName="password"
+        [type]="VisiblePassword ? 'text' : 'password'"
+        [disabled]="FormGroup.disabled"
+      />
+      <button
+        (click)="VisiblePassword = !VisiblePassword"
+        [disabled]="FormGroup.disabled"
+        class="btn btn-square btn-primary"
+        type="button"
+      >
+        <i class="material-icons">
+          {{ VisiblePassword ? "visibility_off" : "visibility" }}
+        </i>
+      </button>
+    </div>
+  </div>
+
+  <br />
+
+  <button
+    type="submit"
+    class="btn btn-primary w-full"
+    [disabled]="FormGroup.disabled"
+  >
+    تایید و ورود
+  </button>
+</form>
+
+<div class="divider">یا</div>
+
+<div class="grid grid-cols-2 gap-2">
+  <a routerLink="/auth/register" class="btn btn-sm btn-ghost hover:text-primary">ثبت نام</a>
+  <a routerLink="/auth/forget" class="btn btn-sm btn-ghost hover:text-primary">فراموشی کلمه عبور</a>
+</div>

@@ -1,0 +1,148 @@
+<div class="p-20 flex flex-nowrap gap-8 h-full">
+  <div
+    class="flex flex-col gap-2 flex-1"
+    [ngClass]="{
+      'items-center justify-center text-center p-4':
+        DockerService.Containers != undefined &&
+        DockerService.Containers.length == 0
+    }"
+  >
+    <ng-container
+      *ngIf="
+        DockerService.Containers != undefined &&
+        DockerService.Containers.length == 0
+      "
+    >
+      <strong class="text-2xl">برنامه ندارید که !</strong>
+      <p>تا الان که هیچ برنامه ای نساختی و جای خالیش اینجا حس میشه</p>
+    </ng-container>
+
+    <ng-container
+      *ngIf="
+        DockerService.Containers != undefined &&
+        DockerService.Containers.length != 0
+      "
+    >
+      <a
+        *ngFor="let item of DockerService.Containers"
+        routerLink="/panel/paas/app/manage/{{ item.key }}"
+        class="border rounded-xl p-2 flex flex-nowrap items-center gap-4 transition-all hover:shadow-lg active:scale-95"
+      >
+        <img
+          [src]="item.image.logo"
+          [alt]="item.image.name"
+          class="w-[65px] h-[65px] object-contain object-center"
+        />
+
+        <div class="flex flex-col gap-1 flex-1 ml-2">
+          <strong>{{ item.key }}</strong>
+
+          <div class="text-sm opacity-75 flex flex-nowrap items-center gap-2">
+            <span>{{ DockerService.DockerImageCategoryMap[item.image.category] }}</span>
+            <div class="bg-base-300 w-[6px] h-[6px] rounded-full"></div>
+            <span>{{ item.image.name }}</span>
+            <div class="bg-base-300 w-[6px] h-[6px] rounded-full"></div>
+            <span>{{ item.image.tag }}</span>
+
+            <div class="flex-1"></div>
+
+            <span class="text-blue-500" *ngIf="item.status == 'create'">ساخته شده</span>
+            <span class="text-emerald-600" *ngIf="item.status == 'run'">روشنه</span>
+            <span class="text-red-500" *ngIf="item.status == 'stop'">خاموشه</span>
+          </div>
+        </div>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="DockerService.Containers == undefined">
+      <div class="rounded-xl p-10 bg-base-200 animate-pulse"></div>
+      <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-1000"></div>
+      <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-2000"></div>
+      <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-3000"></div>
+      <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-4000"></div>
+    </ng-container>
+  </div>
+  <div class="h-full w-[1px] bg-black/10"></div>
+  <div class="flex flex-col gap-2 p-4 flex-1">
+    <strong>بساز و استفاده کن</strong>
+    <p class="text-sm opacity-75">
+      انوع پایگاه های داده ، برنامک و برنامه ای که نوشتید رو بسازید
+    </p>
+
+    <br />
+
+    <a
+      routerLink="/panel/paas/app/create"
+      [queryParams]="{ category: 'database' }"
+      class="border rounded-xl p-2 flex flex-nowrap items-center gap-4 transition-all hover:shadow-lg active:scale-95"
+    >
+      <img
+        src="/assets/images/icons/databases.png"
+        class="w-[65px] h-[65px] object-contain object-center"
+      />
+
+      <div class="flex flex-col gap-1 flex-1">
+        <strong>پایگاه داده</strong>
+        <span class="text-sm opacity-75">
+          انواع پایگاه های داده ی SQL و NOSQL رو بسازید
+        </span>
+      </div>
+
+      <div class="btn btn-ghost btn-square text-primary pointer-events-none">
+        <i class="material-icons scale-125">chevron_left</i>
+      </div>
+    </a>
+
+    <a
+      routerLink="/panel/paas/app/create"
+      [queryParams]="{ category: 'app' }"
+      class="border rounded-xl p-2 flex flex-nowrap items-center gap-4 transition-all hover:shadow-lg active:scale-95"
+    >
+      <img
+        src="/assets/images/icons/apps.png"
+        class="w-[65px] h-[65px] object-contain object-center"
+      />
+
+      <div class="flex flex-col gap-1 flex-1">
+        <strong>برنامک ها</strong>
+        <span class="text-sm opacity-75">
+          انوع برنامه های کوچیک ساخته شده رو بسازید
+        </span>
+      </div>
+
+      <div class="btn btn-ghost btn-square text-primary pointer-events-none">
+        <i class="material-icons scale-125">chevron_left</i>
+      </div>
+    </a>
+
+    <a
+      routerLink="/panel/paas/app/create"
+      [queryParams]="{ category: 'language' }"
+      class="border rounded-xl p-2 flex flex-nowrap items-center gap-4 transition-all hover:shadow-lg active:scale-95"
+    >
+      <img
+        src="/assets/images/icons/languages.png"
+        class="w-[65px] h-[65px] object-contain object-center"
+      />
+
+      <div class="flex flex-col gap-1 flex-1">
+        <strong>برنامه نوشته</strong>
+        <span class="text-sm opacity-75">
+          انوع برنامه هایی که خودتون نوشتید رو بسازید
+        </span>
+      </div>
+
+      <div class="btn btn-ghost btn-square text-primary pointer-events-none">
+        <i class="material-icons scale-125">chevron_left</i>
+      </div>
+    </a>
+
+    <a
+      routerLink="/panel/paas/app/create"
+      class="border border-dashed rounded-xl p-4 flex flex-nowrap items-center justify-center gap-2 transition-all hover:border-primary hover:text-primary"
+    >
+      <i class="material-icons">add</i>
+      <span>هر چی می خواهم رو بساز</span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,270 @@
+<div class="drawer drawer-end h-full">
+  <input
+    id="drawer"
+    type="checkbox"
+    class="drawer-toggle"
+    [checked]="VisableDrawer"
+  />
+  <div class="drawer-content h-full">
+    <dot-toolbar title="مسیر ها">
+      <div class="flex-1"></div>
+      <button (click)="VisableDrawer = true" class="btn btn-primary gap-2">
+        <i class="material-icons">add</i>
+        <span>یه مسیر جدید بساز</span>
+      </button>
+    </dot-toolbar>
+    <div
+      class="flex flex-col p-4 gap-2 flex-1"
+      [ngClass]="{
+        'items-center justify-center text-center p-4':
+          Routes != undefined && Routes.length == 0
+      }"
+    >
+      <ng-container *ngIf="Routes != undefined && Routes.length == 0">
+        <strong class="text-2xl">مسیری ندارید که</strong>
+        <p>تا الان که هیچ مسیری نساختی و جای خالیش اینجا حس میشه</p>
+      </ng-container>
+
+      <ng-container *ngIf="Routes != undefined && Routes.length != 0">
+        <div class="overflow-x-auto h-full">
+          <table class="table table-compact w-full h-full dir-ltr text-left">
+            <thead>
+              <tr>
+                <th class="rounded-none">#</th>
+                <th>Name</th>
+                <th>Domain</th>
+                <th>PORT</th>
+                <th>HOST</th>
+                <th>Protocol</th>
+                <th class="rounded-none"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of Routes; let i = index">
+                <td class="text-en">{{ i + 1 }}</td>
+                <td class="text-en">{{ item.name }}</td>
+                <td>
+                  <span class="text-en">{{ item.domain }}</span>
+                </td>
+                <td>
+                  <span class="text-en">{{ item.port }}</span>
+                </td>
+                <td>
+                  <span class="text-en">{{ item.host }}</span>
+                </td>
+                <td>
+                  <span class="text-en">{{ item.protocol }}</span>
+                </td>
+                <td class="flex flex-nowrap items-center gap-1" dir="rtl">
+                  <button
+                    class="btn btn-sm btn-circle btn-ghost pointer-events-none"
+                  >
+                    <i
+                      class="material-icons text-[16px] w-[16px] h-[16px]"
+                      [ngClass]="{ 'text-emerald-600': item.cert }"
+                    >
+                      lock
+                    </i>
+                  </button>
+                  <div class="tooltip tooltip-right" data-tip="ویرایش">
+                    <button
+                      (click)="Edit(item)"
+                      class="btn btn-sm btn-circle btn-ghost"
+                    >
+                      <i class="material-icons text-[16px] w-[16px] h-[16px]">
+                        edit
+                      </i>
+                    </button>
+                  </div>
+                  <div class="tooltip tooltip-right" data-tip="حذف مسیر">
+                    <button
+                      (click)="Delete(item.name)"
+                      class="btn btn-sm btn-circle btn-ghost"
+                    >
+                      <i class="material-icons text-[16px] w-[16px] h-[16px]">
+                        delete
+                      </i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <th class="rounded-none">#</th>
+                <th>Name</th>
+                <th>Domain</th>
+                <th>PORT</th>
+                <th>HOST</th>
+                <th>Protocol</th>
+                <th class="rounded-none"></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="Routes == undefined">
+        <div class="rounded-xl p-10 bg-base-200 animate-pulse"></div>
+        <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-1000"></div>
+        <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-2000"></div>
+        <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-3000"></div>
+        <div class="rounded-xl p-10 bg-base-200 animate-pulse delay-4000"></div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="drawer-side">
+    <div (click)="Close()" class="drawer-overlay"></div>
+    <form
+      [formGroup]="FormGroup"
+      class="menu p-8 w-[500px] bg-base-100 text-base-content"
+    >
+      <div class="flex flex-nowrap items-center justify-between">
+        <span>تعریف مسیر</span>
+
+        <button (click)="Close()" class="btn btn-square btn-ghost">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div
+        class="form-control"
+        [ngClass]="{ 'pointer-events-none opacity-50': EditMode }"
+      >
+        <label class="label">
+          <span class="label-text">نام مسیر</span>
+          <span class="label-text-alt" *ngIf="NameIsExists != 0">
+            <span class="text-warning" *ngIf="NameIsExists == -1">
+              در حال بررسی
+            </span>
+            <span class="text-success" *ngIf="NameIsExists == 1">
+              میشه نامگذاری کرد
+            </span>
+            <span class="text-error" *ngIf="NameIsExists == 2">
+              این نام وجود دارد
+            </span>
+          </span>
+        </label>
+        <input
+          [disabled]="FormGroup.disabled || EditMode"
+          type="text"
+          formControlName="name"
+          class="input input-bordered dir-ltr text-left text-en focus:input-primary"
+          (keyup)="OnNameChange()"
+          [ngClass]="{
+            '!input-success': NameIsExists == 1,
+            '!input-error': NameIsExists == 2 || HasError('name')
+          }"
+        />
+
+        <label class="label">
+          <span class="label-text-alt">
+            این نام خاص نباید تو کل انگور تکرار شده باشه
+          </span>
+          <span class="label-text-alt"> بیشتر از ۵ کارکتر </span>
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">دامنه</span>
+        </label>
+        <input
+          [disabled]="FormGroup.disabled"
+          type="url"
+          formControlName="domain"
+          class="input input-bordered dir-ltr text-left text-en focus:input-primary"
+          [ngClass]="{
+            'input-error': HasError('domain')
+          }"
+        />
+        <label class="lebel">
+          <span class="label-text-alt">دامنه را بدون پروتوکل وارد کنید</span>
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">پورت</span>
+        </label>
+        <input
+          [disabled]="FormGroup.disabled"
+          type="number"
+          min="0"
+          max="65535"
+          formControlName="port"
+          class="input input-bordered dir-ltr text-left text-en focus:input-primary"
+          [ngClass]="{
+            'input-error': HasError('port')
+          }"
+        />
+        <label class="label">
+          <span class="label-text-alt">
+            به چه پورتی در سرور انگور اشاره بشه
+          </span>
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">میزبان</span>
+        </label>
+        <input
+          [disabled]="FormGroup.disabled"
+          type="url"
+          formControlName="host"
+          class="input input-bordered dir-ltr text-left text-en focus:input-primary"
+          [ngClass]="{
+            'input-error': HasError('url')
+          }"
+        />
+        <label class="lebel">
+          <span class="label-text-alt">
+            به چه میزبانی در سرور انگور اشاره بشه
+          </span>
+        </label>
+      </div>
+
+      <!-- daisyui select box for protocol -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">پروتوکل</span>
+        </label>
+
+        <select
+          [disabled]="FormGroup.disabled"
+          formControlName="protocol"
+          class="select select-bordered focus:select-primary"
+          [ngClass]="{
+            'select-error': HasError('protocol')
+          }"
+        >
+          <option value="http">HTTP</option>
+          <option value="tcp">TCP</option>
+        </select>
+      </div>
+
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">براش یه گواهی نامه هم بساز</span>
+          <input
+            [disabled]="FormGroup.disabled"
+            type="checkbox"
+            class="toggle toggle-primary"
+            formControlName="cert"
+          />
+        </label>
+      </div>
+
+      <div class="flex-1"></div>
+
+      <button
+        (click)="Submit()"
+        [disabled]="FormGroup.disabled"
+        class="btn btn-primary"
+      >
+        تایید و افزودن مسیر
+      </button>
+
+      <br />
+    </form>
+  </div>
+</div>

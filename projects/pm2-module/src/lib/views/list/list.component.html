@@ -1,0 +1,80 @@
+<dot-toolbar title="PM2"></dot-toolbar>
+
+<div class="overflow-x-auto">
+  <table class="table table-compact w-full text-left">
+    <thead>
+      <tr>
+        <th class="rounded-none">#</th>
+        <th>Name</th>
+        <th>Restarts</th>
+        <th>Up Time</th>
+        <th>CPU</th>
+        <th>Memory</th>
+        <th>Status</th>
+        <th>Path</th>
+        <th>Port</th>
+        <th class="rounded-none"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of List; let i = index">
+        <td class="text-en">{{ i + 1 }}</td>
+        <td class="text-en">{{ item.name }}</td>
+        <td class="text-en">{{ item.restarts }}</td>
+        <td class="text-en">{{ item.uptime }}</td>
+        <td class="text-en">{{ item.cpu }}</td>
+        <td class="text-en">{{ item.memory }}</td>
+        <td class="text-en">{{ item.status }}</td>
+        <td class="text-en">{{ item.options.path ?? "-" }}</td>
+        <td class="text-en">{{ item.options.port ?? "-" }}</td>
+        <td class="flex flex-nowrap items-center gap-1" dir="rtl">
+          <div class="tooltip tooltip-right" data-tip="روشن کن">
+            <button
+              [disabled]="Loading"
+              (click)="Start(item.name)"
+              class="btn btn-sm btn-circle btn-ghost"
+            >
+              <i class="material-icons text-[16px] w-[16px] h-[16px]">
+                play_arrow
+              </i>
+            </button>
+          </div>
+          <div class="tooltip tooltip-right" data-tip="خاموش کن">
+            <button
+              [disabled]="Loading"
+              (click)="Stop(item.name)"
+              class="btn btn-sm btn-circle btn-ghost"
+            >
+              <i class="material-icons text-[16px] w-[16px] h-[16px]"> stop </i>
+            </button>
+          </div>
+          <div class="tooltip tooltip-right" data-tip="ریست کن">
+            <button
+              [disabled]="Loading"
+              (click)="Restart(item.name)"
+              class="btn btn-sm btn-circle btn-ghost"
+            >
+              <i class="material-icons text-[16px] w-[16px] h-[16px]">
+                refresh
+              </i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th class="rounded-none">#</th>
+        <th>Name</th>
+        <th>Restarts</th>
+        <th>Up Time</th>
+        <th>CPU</th>
+        <th>Memory</th>
+        <th>Status</th>
+        <th>Path</th>
+        <th>Port</th>
+        <th class="rounded-none"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

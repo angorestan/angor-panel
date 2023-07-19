@@ -1,0 +1,429 @@
+<dot-toolbar [backable]="true" title="تعریف ایمیج">
+  <div class="flex-1"></div>
+
+  <button (click)="Submit()" [disabled]="FormGroup.disabled" class="btn btn-primary">تایید و ذخیره</button>
+</dot-toolbar>
+
+<form [formGroup]="FormGroup" class="flex flex-col gap-4 p-4">
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>کلید</strong>
+      <p>
+        کلید ایمیج که باید یونیک و خاص باشد که توسط این کلید کانتینر ها ایجاد می
+        شوند
+      </p>
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">کلید</span>
+      </label>
+
+      <input
+        formControlName="key"
+        type="text"
+        class="input input-bordered text-left text-en dir-ltr focus:input-primary"
+      />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>نام</strong>
+      <p>نام نمایشی ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">نام</span>
+      </label>
+
+      <input
+        formControlName="name"
+        type="text"
+        class="input input-bordered focus:input-primary"
+      />
+    </div>
+  </div>
+
+  <!-- unique -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>نام گروه</strong>
+      <p>نام گروه که برای جمع کردن ایمیج ها کنار هم هستش رو انتخاب کنید</p>
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">یونیک</span>
+      </label>
+
+      <input
+        formControlName="unique"
+        type="text"
+        class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+      />
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>داکر ایمیج</strong>
+      <p>نام و تگ ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">نام داکر ایمیج</span>
+        </label>
+
+        <input
+          formControlName="image"
+          type="text"
+          class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+        />
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">تگ داکر ایمیج</span>
+        </label>
+
+        <input
+          formControlName="tag"
+          type="text"
+          class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>دسته بندی</strong>
+      <p>دسته بندی ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">دسته بندی</span>
+      </label>
+
+      <select
+        formControlName="category"
+        class="select select-bordered focus:select-primary"
+      >
+        <!-- database, app, language -->
+        <option value="database">پایگاه داده</option>
+        <option value="app">برنامک</option>
+        <option value="language">برنامه نوشته</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- logo url address -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>لوگو</strong>
+      <p>آدرس لوگو ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text">لوگو</span>
+      </label>
+
+      <div class="input-group w-full">
+        <input
+          formControlName="logo"
+          type="url"
+          class="input input-bordered w-full text-en text-left dir-ltr focus:input-primary"
+        />
+        <span>HTTPS</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- mounts -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>ولیوم ها و مانت ها</strong>
+      <p>ولیوم ها و مانت های ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <!-- ngModel of key, source -->
+      <div class="flex flex-nowrap items-end gap-2">
+        <div class="form-control flex-1">
+          <label class="label">
+            <span class="label-text">کلید</span>
+          </label>
+
+          <input
+            [(ngModel)]="MountKey"
+            [ngModelOptions]="{ standalone: true }"
+            type="text"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+          />
+        </div>
+
+        <div class="form-control flex-1">
+          <label class="label">
+            <span class="label-text">منبع</span>
+          </label>
+
+          <input
+            [(ngModel)]="MountSource"
+            [ngModelOptions]="{ standalone: true }"
+            type="text"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+          />
+        </div>
+
+        <div class="tooltip tooltip-left" data-tip="افزودن">
+          <button (click)="AddMount()" class="btn btn-primary btn-square">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- list of mounts with delete button -->
+      <div
+        class="flex flex-nowrap items-end gap-2"
+        *ngFor="let item of Mounts; let i = index"
+      >
+        <input
+          [value]="item.key"
+          type="text"
+          class="input input-bordered flex-1 text-en text-left dir-ltr pointer-events-none focus:input-primary"
+        />
+
+        <input
+          [value]="item.source"
+          type="text"
+          class="input input-bordered flex-1 text-en text-left dir-ltr pointer-events-none focus:input-primary"
+        />
+
+        <div class="tooltip tooltip-left" data-tip="حذف">
+          <button (click)="DeleteMount(i)" class="btn btn-error btn-square">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ports are source, destination -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>پورت ها</strong>
+      <p>پورت های ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <!-- ngModel of key, source -->
+      <div class="flex flex-nowrap items-end gap-2">
+        <div class="form-control flex-1">
+          <label class="label">
+            <span class="label-text">پورت داخل کانتینر</span>
+          </label>
+
+          <input
+            [(ngModel)]="PortSource"
+            [ngModelOptions]="{ standalone: true }"
+            min="0"
+            type="number"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+          />
+        </div>
+
+        <div class="form-control flex-1">
+          <label class="label">
+            <span class="label-text">خروج به پورت</span>
+          </label>
+
+          <input
+            [(ngModel)]="PortDestination"
+            [ngModelOptions]="{ standalone: true }"
+            min="0"
+            type="number"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+          />
+        </div>
+
+        <div class="tooltip tooltip-left" data-tip="افزودن">
+          <button (click)="AddPort()" class="btn btn-primary btn-square">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- list of ports with delete button -->
+      <div
+        class="flex flex-nowrap items-end gap-2"
+        *ngFor="let item of Ports; let i = index"
+      >
+        <input
+          [value]="item.source"
+          type="text"
+          class="input input-bordered flex-1 text-en text-left dir-ltr pointer-events-none focus:input-primary"
+        />
+
+        <input
+          [value]="item.destination"
+          type="text"
+          class="input input-bordered flex-1 text-en text-left dir-ltr pointer-events-none focus:input-primary"
+        />
+
+        <div class="tooltip tooltip-left" data-tip="حذف">
+          <button (click)="DeleteMount(i)" class="btn btn-error btn-square">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- envs -->
+  <div class="grid grid-cols-2 gap-4">
+    <div class="flex flex-col">
+      <strong>متغیر های محیطی</strong>
+      <p>متغیر های محیطی ایمیج را وارد کنید</p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <!-- ngModel of key, source -->
+      <div class="flex flex-nowrap items-end gap-2">
+        <div class="grid grid-cols-2 gap-2 flex-1">
+          <!-- key -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">کلید</span>
+            </label>
+
+            <input
+              [(ngModel)]="EnvKey"
+              [ngModelOptions]="{ standalone: true }"
+              type="text"
+              class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+            />
+          </div>
+          <!-- text -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">عنوان</span>
+            </label>
+
+            <input
+              [(ngModel)]="EnvText"
+              [ngModelOptions]="{ standalone: true }"
+              type="text"
+              class="input input-bordered focus:input-primary"
+            />
+          </div>
+          <!-- type is a select of string,number,boolean -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">نوع</span>
+            </label>
+
+            <select
+              [(ngModel)]="EnvType"
+              [ngModelOptions]="{ standalone: true }"
+              class="select select-bordered w-full focus:select-primary"
+            >
+              <option value="string">متن</option>
+              <option value="number">عدد</option>
+              <option value="boolean">بولین</option>
+            </select>
+          </div>
+          <!-- value -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">مقدار</span>
+              <span class="label-text-alt">اختیاری</span>
+            </label>
+
+            <input
+              [(ngModel)]="EnvValue"
+              [ngModelOptions]="{ standalone: true }"
+              type="text"
+              class="input input-bordered text-en text-left dir-ltr focus:input-primary"
+            />
+          </div>
+          <!-- hidden is a checkbox -->
+          <div class="form-control">
+            <label class="label justify-start gap-4">
+              <input
+                type="checkbox"
+                [(ngModel)]="EnvHidden"
+                [ngModelOptions]="{ standalone: true }"
+                class="checkbox checked:checkbox-primary"
+              />
+
+              <span>مخفی و نمایش ندادن</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="tooltip tooltip-left" data-tip="افزودن">
+          <button (click)="AddEnv()" class="btn btn-primary btn-square">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+
+      <!-- list of env with delete button -->
+      <div
+        class="flex flex-nowrap items-end gap-2"
+        *ngFor="let item of Envs; let i = index"
+      >
+        <div class="grid grid-cols-2 gap-2 flex-1">
+          <!-- key -->
+          <input
+            [value]="item.key"
+            type="text"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary pointer-events-none"
+          />
+          <!-- text -->
+          <input
+            [value]="item.text"
+            type="text"
+            class="input input-bordered focus:input-primary pointer-events-none"
+          />
+          <!-- type -->
+          <input
+            [value]="item.type"
+            type="text"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary pointer-events-none"
+          />
+          <!-- value -->
+          <input
+            [value]="item.value"
+            type="text"
+            class="input input-bordered text-en text-left dir-ltr focus:input-primary pointer-events-none"
+          />
+          <!-- hidden -->
+          <label class="label justify-start gap-4">
+            <input
+              type="checkbox"
+              [checked]="item.hidden"
+              class="checkbox checked:checkbox-primary pointer-events-none"
+            />
+
+            <span>مخفی و نمایش ندادن</span>
+          </label>
+        </div>
+
+        <div class="tooltip tooltip-left" data-tip="حذف">
+          <button (click)="DeleteEnv(i)" class="btn btn-error btn-square">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full h-[100px]"></div>
+</form>

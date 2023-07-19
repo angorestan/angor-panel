@@ -1,0 +1,10 @@
+<div class="flex flex-nowrap items-center gap-4">
+  <span>می خواهم برنامه را به طور کامل حذف کنم</span>
+
+  <div class="flex-1"></div>
+
+  <button (click)="Delete()" [disabled]="Deleteing" class="btn btn-error gap-2">
+    <i class="material-icons">delete</i>
+    <span>حذف برنامه</span>
+  </button>
+</div>

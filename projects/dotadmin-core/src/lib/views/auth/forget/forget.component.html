@@ -1,0 +1,38 @@
+<strong class="text-xl"> فراموشی کلمه عبور </strong>
+<p class="text-sm">
+  با آدرس ایمیلی که ثبت نام کرده اید ، کلمه عبور خود را می توانید تغییر دهید
+</p>
+
+<br />
+
+<form [formGroup]="FormGroup" (ngSubmit)="Submit()" class="flex flex-col gap-2">
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> آدرس ایمیل </span>
+    </label>
+    <input
+      type="text"
+      name="dotadmin-email"
+      class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+      formControlName="email"
+      [disabled]="FormGroup.disabled"
+    />
+  </div>
+
+  <br />
+
+  <button
+    type="submit"
+    class="btn btn-primary w-full"
+    [disabled]="FormGroup.disabled"
+  >
+    تایید و ورود
+  </button>
+</form>
+
+<div class="divider">یا</div>
+
+<div class="grid grid-cols-2 gap-2">
+  <a routerLink="/auth/register" class="btn btn-sm btn-ghost hover:text-primary">ثبت نام</a>
+  <a routerLink="/auth/login" class="btn btn-sm btn-ghost hover:text-primary">ورود</a>
+</div>

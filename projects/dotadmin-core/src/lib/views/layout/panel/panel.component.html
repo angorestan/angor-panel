@@ -1,0 +1,146 @@
+<ng-container *ngIf="!Loading; else elseLoading">
+  <nav class="flex flex-nowrap items-center h-[56px] px-3 md:hidden">
+    <button
+      (click)="AppService.DrawerOpened = !AppService.DrawerOpened"
+      class="btn btn-square btn-ghost"
+    >
+      <i class="material-icons">menu</i>
+    </button>
+  </nav>
+
+  <div class="flex flex-nowrap h-full">
+    <nav
+      class="flex flex-col items-center w-[75px] py-8 transition-all"
+      [ngClass]="{ '-md:-mr-[364px]': !AppService.DrawerOpened }"
+    >
+      <div
+        class="flex -md:flex-nowrap md:flex-col items-center gap-2 -md:fixed -md:top-3 -md:left-4 -md:dir-ltr z-20"
+      >
+        <div class="relative group">
+          <button
+            class="btn btn-circle btn-ghost bg-base-200 -md:btn-sm !rounded-full"
+          >
+            <i class="material-icons -md:text-[16px] -md:w-[16px] -md:h-[16px]">
+              person
+            </i>
+          </button>
+
+          <div
+            dir="rtl"
+            class="absolute -md:top-6 md:top-0 -md:left-4 md:right-14 flex flex-col min-w-[250px] p-1 bg-base-200 shadow rounded-xl z-10 scale-0 pointer-events-none transition-all -md:origin-top-left md:origin-top-right group-focus-within:scale-100 group-focus-within:pointer-events-auto"
+          >
+            <div class="p-2 flex flex-col gap-1">
+              <span class="text-sm">خوش آمدید</span>
+              <span>
+                {{ UserService.Profile?.firstname }}
+                {{ UserService.Profile?.lastname }}
+              </span>
+            </div>
+
+            <button
+              (click)="UserService.Logout()"
+              class="btn btn-ghost justify-start gap-6"
+            >
+              <i class="material-icons">logout</i>
+              <span>خروج از حساب کاربری</span>
+            </button>
+          </div>
+        </div>
+
+        <a
+          [routerLink]="AppService.NotificationsRoute"
+          class="md:bg-base-200 w-[42px] h-[24px] flex items-center justify-center rounded-2xl relative cursor-pointer"
+        >
+          <i class="material-icons md:text-[16px] md:w-[16px] md:h-[16px]"
+            >notifications</i
+          >
+          <span
+            [class.scale-0]="AppService.NotificationsCount < 1"
+            class="badge badge-primary absolute -bottom-3 -left-1"
+          >
+            {{ AppService.NotificationsCount }}
+          </span>
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-4 mt-8">
+        <div
+          *ngFor="let item of ModuleService.Modules"
+          class="flex flex-col items-center justify-center text-center gap-1"
+          [class.opacity-70]="ModuleService.ActiveModule != item"
+        >
+          <a
+            class="btn btn-square rounded-xl"
+            (click)="ModuleService.ActiveModule = item"
+            [routerLink]="item.link"
+            [class.btn-primary]="ModuleService.ActiveModule == item"
+            [class.btn-ghost]="ModuleService.ActiveModule != item"
+          >
+            <i class="material-icons">{{ item.icon }}</i>
+          </a>
+          <span
+            class="text-xs font-bold"
+            [class.text-primary]="ModuleService.ActiveModule == item"
+          >
+            {{ item.name }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex-1"></div>
+
+      <span class="rotate-90">
+        {{ AppService.Title }}
+      </span>
+    </nav>
+
+    <section
+      class="md:bg-base-200 flex-1 -mb:h-full rounded-t-2xl ml-2 mb-4 z-10 flex flex-nowrap overflow-hidden"
+    >
+      <div
+        *ngIf="
+          ModuleService.ActiveModule &&
+          ModuleService.ActiveModule.drawer &&
+          ModuleService.ActiveModule.drawer.length != 0
+        "
+        [ngClass]="{
+          '-md:ml-2': !AppService.DrawerOpened
+        }"
+        class="flex flex-col gap-2 min-w-[250px] overflow-x-hidden overflow-y-auto p-4 transition-all -md:bg-base-200 -md:rounded-tr-2xl"
+      >
+        <ng-container *ngFor="let item of ModuleService.ActiveModule.drawer">
+          <a
+            [routerLink]="item.link"
+            (click)="ModuleService.ActiveModuleDrawerItem = item.link"
+            [ngClass]="{
+              'bg-black/10': ModuleService.ActiveModuleDrawerItem == item.link
+            }"
+            class="btn btn-wide btn-ghost gap-4 justify-start font-normal"
+          >
+            <i *ngIf="item.icon" class="material-icons">{{ item.icon }}</i>
+            <span>{{ item.title }}</span>
+          </a>
+        </ng-container>
+      </div>
+
+      <div
+        class="flex-1 bg-base-100 md:shadow-lg overflow-hidden"
+        [ngClass]="{
+          '-md:rounded-tr-2xl': !AppService.DrawerOpened
+        }"
+      >
+        <div
+          class="-md:min-w-[100vw] h-full overflow-x-hidden overflow-y-scroll"
+        >
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-container>
+
+<ng-template #elseLoading>
+  <div class="flex flex-col items-center justify-center h-full">
+    <span>در حال دریافت اطلاعات</span>
+  </div>
+</ng-template>

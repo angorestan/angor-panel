@@ -1,0 +1,9 @@
+::ng-deep {
+    .swiper-slide-next,
+    .swiper-slide-prev {
+      opacity: 0.8;
+      transform: scale(0.8);
+      transition: all 0.2s;
+    }
+  }
+  

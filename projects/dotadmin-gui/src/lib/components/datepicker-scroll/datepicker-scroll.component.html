@@ -1,0 +1,44 @@
+<swiper
+  (realIndexChange)="setDateValue('year', $event[0].realIndex)"
+  class="h-[100px]"
+  [centeredSlides]="true"
+  [mousewheel]="true"
+  [direction]="'vertical'"
+  [slidesPerView]="3"
+>
+  <ng-template *ngFor="let year of Years" swiperSlide>
+    <button class="btn btn-sm btn-ghost w-full">
+      {{ year }}
+    </button>
+  </ng-template>
+</swiper>
+
+<swiper
+  (realIndexChange)="setDateValue('month', $event[0].realIndex)"
+  class="h-[100px]"
+  [centeredSlides]="true"
+  [mousewheel]="true"
+  [direction]="'vertical'"
+  [slidesPerView]="3"
+>
+  <ng-template *ngFor="let month of Calendar.month" swiperSlide>
+    <button class="btn btn-sm btn-ghost w-full">
+      {{ month }}
+    </button>
+  </ng-template>
+</swiper>
+
+<swiper
+  (realIndexChange)="setDateValue('day', $event[0].realIndex)"
+  class="h-[100px]"
+  [centeredSlides]="true"
+  [mousewheel]="true"
+  [direction]="'vertical'"
+  [slidesPerView]="3"
+>
+  <ng-template *ngFor="let day of Days" swiperSlide>
+    <button class="btn btn-sm btn-ghost w-full">
+      {{ day }}
+    </button>
+  </ng-template>
+</swiper>

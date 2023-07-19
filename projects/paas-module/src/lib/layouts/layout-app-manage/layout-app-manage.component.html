@@ -1,0 +1,122 @@
+<ng-container *ngIf="DockerService.Container != null">
+  <div
+    class="flex flex-col items-center gap-2 bg-base-200 p-4 min-w-[300px] w-[300px] h-full"
+  >
+    <a
+      routerLink="/panel/paas/app"
+      class="btn btn-ghost justify-start gap-2 w-full"
+    >
+      <i class="material-icons">arrow_forward</i>
+      <span>بازگشت به برنامه ها</span>
+    </a>
+
+    <ng-container *ngIf="DockerService.Container">
+      <br />
+
+      <img
+        [src]="DockerService.Container.image.logo"
+        [alt]="DockerService.Container.image.name"
+        class="h-[100px] object-contain object-center"
+      />
+
+      <br />
+
+      <strong>{{ DockerService.Container.key }}</strong>
+      <div
+        class="text-sm opacity-75 flex flex-nowrap items-center justify-between gap-2 w-full"
+      >
+        <span>
+          {{
+            DockerService.DockerImageCategoryMap[
+              DockerService.Container.image.category
+            ]
+          }}
+        </span>
+        <div class="bg-base-300 w-[6px] h-[6px] rounded-full"></div>
+        <span>{{ DockerService.Container.image.name }}</span>
+        <div class="bg-base-300 w-[6px] h-[6px] rounded-full"></div>
+        <span>{{ DockerService.Container.image.tag }}</span>
+      </div>
+
+      <div class="flex flex-nowrap items-center gap-2 w-full">
+        <div class="text-sm opacity-75">
+          <span
+            class="text-blue-500"
+            *ngIf="DockerService.Container.status == 'create'"
+            >ساخته شده</span
+          >
+          <span
+            class="text-emerald-600"
+            *ngIf="DockerService.Container.status == 'run'"
+            >روشنه</span
+          >
+          <span
+            class="text-red-500"
+            *ngIf="DockerService.Container.status == 'stop'"
+            >خاموشه</span
+          >
+        </div>
+        <div class="flex-1"></div>
+
+        <div class="tooltip tooltip-bottom" data-tip="روشن کن">
+          <button (click)="Start()" class="btn btn-sm btn-ghost btn-circle">
+            <i class="material-icons">play_arrow</i>
+          </button>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="خاموش کن">
+          <button (click)="Stop()" class="btn btn-sm btn-ghost btn-circle">
+            <i class="material-icons">stop</i>
+          </button>
+        </div>
+        <div class="tooltip tooltip-bottom" data-tip="ریست کن">
+          <button (click)="Restart()" class="btn btn-sm btn-ghost btn-circle">
+            <i class="material-icons">replay</i>
+          </button>
+        </div>
+      </div>
+
+      <br />
+
+      <a
+        routerLink="/panel/paas/app/manage/{{ DockerService.Container.key }}"
+        class="btn btn-ghost justify-start gap-4 w-full"
+      >
+        <i class="material-icons">dashboard</i>
+        <span>پیشخان</span>
+      </a>
+
+      <a
+        routerLink="/panel/paas/app/manage/{{
+          DockerService.Container.key
+        }}/logs"
+        class="btn btn-ghost justify-start gap-4 w-full"
+      >
+        <i class="material-icons">article</i>
+        <span>لاگ ها</span>
+      </a>
+
+      <a
+        routerLink="/panel/paas/app/manage/{{
+          DockerService.Container.key
+        }}/terminal"
+        class="btn btn-ghost justify-start gap-4 w-full"
+      >
+        <i class="material-icons">terminal</i>
+        <span>خط فرمان</span>
+      </a>
+
+      <a
+        routerLink="/panel/paas/app/manage/{{
+          DockerService.Container.key
+        }}/settings"
+        class="btn btn-ghost justify-start gap-4 w-full"
+      >
+        <i class="material-icons">settings</i>
+        <span>تنظیمات</span>
+      </a>
+    </ng-container>
+  </div>
+  <div class="flex-1 overflow-hidden">
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>

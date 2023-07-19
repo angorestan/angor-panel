@@ -1,0 +1,14 @@
+<strong>{{ data.title }}</strong>
+<p class="opacity-75">{{ data.description }}</p>
+
+<br />
+
+<div class="flex flex-nowrap items-center justify-end gap-1">
+  <button (click)="No()" class="btn btn-ghost">
+    {{ data.no ?? "لغو" }}
+  </button>
+
+  <button (click)="Yes()" class="btn btn-primary">
+    {{ data.yes ?? "تایید" }}
+  </button>
+</div>

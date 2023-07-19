@@ -1,0 +1,77 @@
+<dot-toolbar title="داکر ایمیج ها">
+  <div class="flex-1"></div>
+
+  <a routerLink="/panel/docker/images/form" class="btn btn-primary gap-2">
+    <i class="material-icons">add</i>
+    <span>تعریف ایمیج جدید</span>
+  </a>
+</dot-toolbar>
+
+<div class="overflow-x-auto h-full" dir="ltr">
+  <table class="table table-compact w-full dir-ltr text-left">
+    <thead>
+      <tr>
+        <th class="rounded-none sticky left-0">#</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Key</th>
+        <th>Unique</th>
+        <th>Category</th>
+        <th>Image:Tag</th>
+        <th>Ports</th>
+        <th>Mounts</th>
+        <th>Envs</th>
+        <th class="rounded-none"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Data">
+        <td class="text-en sticky left-0">{{ item.id }}</td>
+        <td>
+          <img [src]="item.logo" [alt]="item.name" class="w-8 h-8 object-contain object-center" />
+        </td>
+        <td class="text-en">{{ item.name }}</td>
+        <td class="text-en">{{ item.key }}</td>
+        <td class="text-en">{{ item.unique }}</td>
+        <td class="text-en">{{ item.category }}</td>
+        <td class="text-en">{{ item.image }}:{{ item.tag }}</td>
+        <td class="text-en min-w-[150px] max-w-[150px] truncate">
+          {{ FormatPorts(item.ports) }}
+        </td>
+        <td class="text-en min-w-[150px] max-w-[150px] truncate">
+          {{ FormatMounts(item.mounts) }}
+        </td>
+        <td class="text-en min-w-[150px] max-w-[150px] truncate">
+          {{ FormatEnvs(item.envs) }}
+        </td>
+        <td>
+          <a
+            routerLink="/panel/docker/images/form"
+            [queryParams]="{ key: item.key }"
+            class="btn btn-sm btn-square btn-ghost"
+          >
+            <i class="material-icons">edit</i>
+          </a>
+          <button (click)="Delete(item.key)" class="btn btn-sm btn-square btn-ghost hover:btn-error">
+            <i class="material-icons">delete</i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th class="rounded-none sticky left-0">#</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Key</th>
+        <th>Unique</th>
+        <th>Category</th>
+        <th>Image:Tag</th>
+        <th>Ports</th>
+        <th>Mounts</th>
+        <th>Envs</th>
+        <th class="rounded-none"></th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

@@ -1,0 +1,191 @@
+<dot-toolbar [backable]="true" title="بازگشت به برنامه ها"></dot-toolbar>
+
+<div
+  class="flex h-full"
+  [ngClass]="{
+    'flex-col items-center justify-center gap-4 p-20':
+      DockerService.Images != undefined && DockerService.Images.length == 0,
+    'flex-nowrap gap-10':
+      DockerService.Images != undefined && DockerService.Images.length != 0
+  }"
+>
+  <ng-container
+    *ngIf="DockerService.Images && DockerService.Images.length == 0"
+  >
+    <strong class="text-2xl">انگور بدون برنامه</strong>
+    <p class="w-2/6 text-center opacity-75">
+      انگوری که الان توش هستید بنظر میاد که هیچ برنامه ای براش تعریف نشده و با
+      نصاب اش یکم اختلات کنید ببینید مشکل چیه
+    </p>
+  </ng-container>
+  <ng-container
+    *ngIf="DockerService.Images && DockerService.Images.length != 0"
+  >
+    <div
+      class="flex flex-col gap-2 py-20 px-8 flex-1 overflow-y-scroll overflow-x-hidden scrollbar"
+    >
+      <!-- Grid of langugaes -->
+      <div
+        *ngIf="GetDockerImagesFilteredByCategory('language').length != 0"
+        class="flex flex-col gap-1 flex-1"
+      >
+        <strong>برنامه نوشته</strong>
+        <span class="text-sm opacity-75">
+          انوع برنامه هایی که خودتون نوشتید رو بسازید
+        </span>
+
+        <br />
+
+        <div class="flex flex-wrap gap-4">
+          <div
+            *ngFor="let item of GetDockerImagesFilteredByCategory('language')"
+            (click)="SelectImage(item)"
+            [ngClass]="{ 'border-primary shadow-lg': SelectedImage == item }"
+            class="w-[140px] flex flex-col items-center justify-center text-center select-none gap-4 p-6 border rounded-lg cursor-pointer transition-all hover:shadow active:scale-95"
+          >
+            <img [src]="item.logo" [alt]="item.name" />
+
+            <span>{{ item.name }}</span>
+            <span class="text-sm -mt-2">{{ item.tag }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Grid of app -->
+      <div
+        *ngIf="GetDockerImagesFilteredByCategory('app').length != 0"
+        class="flex flex-col gap-1 flex-1"
+      >
+        <strong>برنامک ها</strong>
+        <span class="text-sm opacity-75">
+          انوع برنامه های کوچیک ساخته شده رو بسازید
+        </span>
+
+        <br />
+
+        <div class="flex flex-wrap gap-4">
+          <div
+            *ngFor="let item of GetDockerImagesFilteredByCategory('app')"
+            (click)="SelectImage(item)"
+            [ngClass]="{ 'border-primary shadow-lg': SelectedImage == item }"
+            class="w-[140px] flex flex-col items-center justify-center text-center select-none gap-4 p-6 border rounded-lg cursor-pointer transition-all hover:shadow active:scale-95"
+          >
+            <img [src]="item.logo" [alt]="item.name" />
+
+            <span>{{ item.name }}</span>
+            <span class="text-sm -mt-2">{{ item.tag }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Grid of database -->
+      <div
+        *ngIf="GetDockerImagesFilteredByCategory('database').length != 0"
+        class="flex flex-col gap-1 flex-1"
+      >
+        <strong>پایگاه داده</strong>
+        <span class="text-sm opacity-75">
+          انواع پایگاه های داده ی SQL و NOSQL رو بسازید
+        </span>
+
+        <br />
+
+        <div class="flex flex-wrap gap-4">
+          <div
+            *ngFor="let item of GetDockerImagesFilteredByCategory('database')"
+            (click)="SelectImage(item)"
+            [ngClass]="{ 'border-primary shadow-lg': SelectedImage == item }"
+            class="w-[140px] flex flex-col items-center justify-center text-center select-none gap-4 p-6 border rounded-lg cursor-pointer transition-all hover:shadow active:scale-95"
+          >
+            <img [src]="item.logo" [alt]="item.name" />
+
+            <span>{{ item.name }}</span>
+            <span class="text-sm -mt-2">{{ item.tag }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-[1px] bg-black/10 my-20"></div>
+
+    <form
+      [formGroup]="FormGroup"
+      class="flex flex-col gap-2 py-20 px-8 flex-1 transition-all scrollbar"
+      [ngClass]="{ '-ml-[100vw]': !SelectedImage }"
+    >
+      <ng-container *ngIf="SelectedImage">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">نام خاص برنامه</span>
+            <span class="label-text-alt" *ngIf="KeyIsExists != 0">
+              <span class="text-warning" *ngIf="KeyIsExists == -1">
+                در حال بررسی
+              </span>
+              <span class="text-success" *ngIf="KeyIsExists == 1">
+                میشه نامگذاری کرد
+              </span>
+              <span class="text-error" *ngIf="KeyIsExists == 2">
+                این نام وجود دارد
+              </span>
+            </span>
+          </label>
+
+          <input
+            type="text"
+            formControlName="key"
+            class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+            [disabled]="FormGroup.disabled"
+            (keyup)="OnKeyChange()"
+            [ngClass]="{
+              '!input-success': KeyIsExists == 1,
+              '!input-error': KeyIsExists == 2
+            }"
+          />
+
+          <label class="label">
+            <span class="label-text-alt">
+              این نام خاص نباید تو کل انگور تکرار شده باشه
+            </span>
+            <span class="label-text-alt"> بیشتر از ۵ کارکتر </span>
+          </label>
+        </div>
+        <!-- Volumes -->
+        <!-- Networks -->
+        <form formGroupName="envs" *ngIf="SelectedImageEnvs.length != 0">
+          <br />
+          <strong>تنظیمات برنامه</strong>
+          <p class="text-sm opacity-75">
+            این برنامه ای که انتخاب کردید یکسری تنظیمات داره که باید انجام بدید
+          </p>
+
+          <ng-container *ngFor="let item of SelectedImageEnvs">
+            <div
+              *ngIf="item.type == 'string' || item.type == 'number'"
+              class="form-control"
+            >
+              <label class="label">
+                <span class="label-text">{{ item.text }}</span>
+              </label>
+
+              <input
+                [type]="item.type"
+                [formControlName]="item.key"
+                [disabled]="FormGroup.disabled"
+                class="input input-bordered w-full focus:input-primary"
+              />
+            </div>
+          </ng-container>
+        </form>
+
+        <div class="flex flex-nowrap items-center justify-between mt-10">
+          <span class="text-sm">از ساخت این برنامه مطمعین باشید</span>
+          <button
+            [disabled]="FormGroup.disabled"
+            (click)="Submit()"
+            class="btn btn-primary"
+          >
+            تایید و بسازش
+          </button>
+        </div>
+      </ng-container>
+    </form>
+  </ng-container>
+</div>

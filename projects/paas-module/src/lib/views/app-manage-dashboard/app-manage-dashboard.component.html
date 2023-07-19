@@ -1,0 +1,45 @@
+<div class="border rounded-xl overflow-hidden flex-1">
+  <canvas
+    baseChart
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [legend]="false"
+    [type]="'line'"
+    class="w-full h-full"
+  >
+  </canvas>
+</div>
+
+<div *ngIf="DockerService.Container" class="flex flex-col gap-2 flex-1">
+  <div class="divider">اطلاعات شبکه برنامه</div>
+  <div class="flex flex-nowrap items-center justify-between">
+    <span class="opacity-75">پورت های برنامه</span>
+    <span class="text-en">
+      {{ GetPorts() }}
+    </span>
+  </div>
+  <div class="flex flex-nowrap items-center justify-between">
+    <span class="opacity-75">آیپی داخل شبکه خصوصی</span>
+    <span class="text-en">
+      {{ DockerService.Container.network.ip }}
+    </span>
+  </div>
+  <div class="flex flex-nowrap items-center justify-between">
+    <span class="opacity-75">آیپی برنامه</span>
+    <span class="text-en">
+      {{ DockerService.Container.container.network.ipv4 }}
+    </span>
+  </div>
+
+  <div class="divider">متغیر های محیطی</div>
+
+  <div
+    *ngFor="let env of GetEnvs()"
+    class="flex flex-nowrap items-center justify-between"
+  >
+    <span class="opacity-75">{{ env.key }}</span>
+    <span class="text-en">
+      {{ env.value }}
+    </span>
+  </div>
+</div>

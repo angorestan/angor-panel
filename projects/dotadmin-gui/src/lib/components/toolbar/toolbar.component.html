@@ -1,0 +1,14 @@
+<button *ngIf="backable" (click)="Location.back()" class="btn btn-ghost btn-square">
+    <i class="material-icons">arrow_forward</i>
+  </button>
+  
+  <button *ngIf="!backable && icon" class="btn btn-ghost btn-square pointer-events-none">
+    <i class="material-icons">{{ icon }}</i>
+  </button>
+  
+  <div *ngIf="title" class="flex flex-col">
+    <strong>{{ title }}</strong>
+    <span *ngIf="subtitle" class="text-sm opacity-75">{{ subtitle }}</span>
+  </div>
+  
+  <ng-content></ng-content>

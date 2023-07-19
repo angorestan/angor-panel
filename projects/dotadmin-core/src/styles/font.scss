@@ -1,0 +1,26 @@
+@import "@fontsource/roboto/400.css";
+
+@font-face {
+  font-family: "IRANSansX";
+  font-style: normal;
+  font-size: 400;
+  src: url("/assets/fonts/IRANSansXFaNum-Regular.woff2");
+}
+
+*:not(.material-icons) {
+  font-family: "IRANSansX", Tahoma !important;
+}
+
+.text-en {
+  font-family: "Roboto", Tahoma !important;
+}
+
+.dir-ltr {
+  direction: ltr;
+}
+
+@media (max-width: 767px) {
+  .-md\:dir-ltr {
+    direction: ltr;
+  }
+}

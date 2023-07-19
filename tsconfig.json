@@ -1,0 +1,60 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "paths": {
+      "angorak": [
+        "dist/angorak"
+      ],
+      "docker-module": [
+        "dist/docker-module"
+      ],
+      "dotadmin-core": [
+        "dist/dotadmin-core"
+      ],
+      "dotadmin-gui": [
+        "dist/dotadmin-gui"
+      ],
+      "paas-module": [
+        "dist/paas-module"
+      ],
+      "pm2-module": [
+        "dist/pm2-module"
+      ],
+      "traefik-module": [
+        "dist/traefik-module"
+      ],
+      "user-module": [
+        "dist/user-module"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

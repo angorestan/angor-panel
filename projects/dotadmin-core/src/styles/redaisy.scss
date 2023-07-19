@@ -1,0 +1,4 @@
+.menu > :where(li) > :where(ul) {
+    left: unset !important;
+    right: 100%;
+}

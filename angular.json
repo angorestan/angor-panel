@@ -1,0 +1,383 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "dotadmin": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/dotadmin",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/dotadmin-core/src/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "projects/dotadmin-core/src/styles/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "dotadmin:build:production"
+            },
+            "development": {
+              "browserTarget": "dotadmin:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dotadmin:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "projects/dotadmin-core/src/assets",
+                "output": "/assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "projects/dotadmin-core/src/styles/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "dotadmin-core": {
+      "projectType": "library",
+      "root": "projects/dotadmin-core",
+      "sourceRoot": "projects/dotadmin-core/src",
+      "prefix": "dotadmin",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dotadmin-core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dotadmin-core/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dotadmin-core/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/dotadmin-core/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "user-module": {
+      "projectType": "library",
+      "root": "projects/user-module",
+      "sourceRoot": "projects/user-module/src",
+      "prefix": "dot",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/user-module/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/user-module/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/user-module/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/user-module/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "dotadmin-gui": {
+      "projectType": "library",
+      "root": "projects/dotadmin-gui",
+      "sourceRoot": "projects/dotadmin-gui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/dotadmin-gui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/dotadmin-gui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/dotadmin-gui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/dotadmin-gui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "angorak": {
+      "projectType": "library",
+      "root": "projects/angorak",
+      "sourceRoot": "projects/angorak/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/angorak/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/angorak/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/angorak/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/angorak/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "paas-module": {
+      "projectType": "library",
+      "root": "projects/paas-module",
+      "sourceRoot": "projects/paas-module/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/paas-module/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/paas-module/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/paas-module/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/paas-module/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "traefik-module": {
+      "projectType": "library",
+      "root": "projects/traefik-module",
+      "sourceRoot": "projects/traefik-module/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/traefik-module/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/traefik-module/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/traefik-module/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/traefik-module/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "pm2-module": {
+      "projectType": "library",
+      "root": "projects/pm2-module",
+      "sourceRoot": "projects/pm2-module/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/pm2-module/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/pm2-module/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/pm2-module/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/pm2-module/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "docker-module": {
+      "projectType": "library",
+      "root": "projects/docker-module",
+      "sourceRoot": "projects/docker-module/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/docker-module/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/docker-module/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/docker-module/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/docker-module/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

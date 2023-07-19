@@ -1,0 +1,108 @@
+<strong class="text-xl"> ایجاد حساب کاربری </strong>
+<p class="text-sm">شما می توانید یک حساب کاربری برای خود ایجاد کنید</p>
+
+<br />
+
+<form [formGroup]="FormGroup" (ngSubmit)="Submit()" class="flex flex-col gap-2">
+  <div class="grid grid-cols-2 gap-2">
+    <div class="form-control w-full">
+      <label class="label">
+        <span class="label-text"> نام </span>
+      </label>
+      <input
+        type="text"
+        name="dotadmin-firstname"
+        class="input input-bordered w-full focus:input-primary"
+        formControlName="firstname"
+        [disabled]="FormGroup.disabled"
+      />
+    </div>
+
+    <div class="form-control w-full">
+      <label class="label">
+        <span class="label-text"> نام خانوادگی </span>
+      </label>
+      <input
+        type="text"
+        name="dotadmin-lastname"
+        class="input input-bordered w-full focus:input-primary"
+        formControlName="lastname"
+        [disabled]="FormGroup.disabled"
+      />
+    </div>
+  </div>
+
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> نام کاربری </span>
+    </label>
+    <input
+      type="text"
+      name="dotadmin-username"
+      class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+      formControlName="username"
+      [disabled]="FormGroup.disabled"
+    />
+  </div>
+
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> آدرس ایمیل </span>
+    </label>
+    <input
+      type="email"
+      name="dotadmin-email"
+      class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+      formControlName="email"
+      [disabled]="FormGroup.disabled"
+    />
+  </div>
+
+  <div class="form-control w-full">
+    <label class="label">
+      <span class="label-text"> کلمه عبور </span>
+    </label>
+    <div class="input-group">
+      <input
+        name="dotadmin-password"
+        class="input input-bordered w-full dir-ltr text-left text-en focus:input-primary"
+        formControlName="password"
+        [type]="VisiblePassword ? 'text' : 'password'"
+        [disabled]="FormGroup.disabled"
+      />
+      <button
+        (click)="VisiblePassword = !VisiblePassword"
+        [disabled]="FormGroup.disabled"
+        class="btn btn-square btn-primary"
+        type="button"
+      >
+        <i class="material-icons">
+          {{ VisiblePassword ? "visibility_off" : "visibility" }}
+        </i>
+      </button>
+    </div>
+    <label for="" class="label"
+      ><span class="label-text-alt"
+        >کلمه عبور باید بیشتر از ۸ کارکتر باشد</span
+      ></label
+    >
+  </div>
+
+  <br />
+
+  <button
+    type="submit"
+    class="btn btn-primary w-full"
+    [disabled]="FormGroup.disabled"
+  >
+    تایید و ورود
+  </button>
+</form>
+
+<div class="divider">یا</div>
+
+<div class="grid grid-cols-1 gap-2">
+  <a routerLink="/auth/login" class="btn btn-sm btn-ghost hover:text-primary">
+    ورود
+  </a>
+</div>
